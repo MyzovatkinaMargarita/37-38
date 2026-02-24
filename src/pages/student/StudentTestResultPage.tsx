@@ -14,17 +14,59 @@ const Container = styled.div`
   gap: 20px;
 `;
 
-const ActionButton = styled.button`
-  background: #1b5de0;
-  color: white;
+const AttemptsBlock = styled.div`
+  background-color: #ffffff;
+  border: 1px solid #e9edf5;
+  border-radius: 14px;
+  padding: 18px 16px;
+  text-align: center;
+`;
+
+const AttemptsLabel = styled.div`
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748b;
+  margin-bottom: 4px;
+`;
+
+const AttemptsValue = styled.div`
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1;
+  color: #475569;
+`;
+
+// Зона действий
+const ActionZone = styled.div`
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const RetryButton = styled.button`
+  appearance: none;
   border: none;
-  padding: 12px;
-  border-radius: 8px;
+  border-radius: 10px;
+  padding: 12px 18px;
+  background-color: #3b82f6;
+  color: #ffffff;
   font-weight: 600;
   cursor: pointer;
+  transition: background-color 0.2s;
+
   &:hover {
-    background: #164bb5;
+    background-color: #2563eb;
   }
+`;
+
+const BackButton = styled.button`
+  background: transparent;
+  color: #64748b;
+  border: none;
+  margin-top: 12px;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 14px;
 `;
 
 export default function StudentTestResultPage() {
@@ -41,7 +83,6 @@ export default function StudentTestResultPage() {
       }
     | undefined;
 
- 
   if (!state) {
     return <Navigate to="/student/tests" replace />;
   }
@@ -57,9 +98,22 @@ export default function StudentTestResultPage() {
           finished={true} 
         />
 
-        <ActionButton onClick={() => navigate("/student/tests")}>
-          Вернуться к списку тестов
-        </ActionButton>
+     
+        <AttemptsBlock>
+          <AttemptsLabel>Осталось попыток</AttemptsLabel>
+          <AttemptsValue>{state.attemptsLeft ?? 0}</AttemptsValue>
+        </AttemptsBlock>
+
+       
+        <ActionZone>
+          <RetryButton onClick={() => navigate(`/student/tests/${id}/run`)}>
+            Пройти тест еще раз
+          </RetryButton>
+          
+          <BackButton onClick={() => navigate("/student/tests")}>
+            Вернуться к списку тестов
+          </BackButton>
+        </ActionZone>
       </Container>
     </>
   );
